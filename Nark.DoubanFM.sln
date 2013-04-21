@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nark.DoubanFM.Test", "Nark.DoubanFM.Test\Nark.DoubanFM.Test.csproj", "{05F2ECCB-91FF-468C-83C0-3504DC90088E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nark.DoubanFM.Model", "Nark.DoubanFM.Model\Nark.DoubanFM.Model.csproj", "{1177B640-C0F1-484D-A05E-F05FCF8F14A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05F2ECCB-91FF-468C-83C0-3504DC90088E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F2ECCB-91FF-468C-83C0-3504DC90088E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F2ECCB-91FF-468C-83C0-3504DC90088E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F2ECCB-91FF-468C-83C0-3504DC90088E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1177B640-C0F1-484D-A05E-F05FCF8F14A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1177B640-C0F1-484D-A05E-F05FCF8F14A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1177B640-C0F1-484D-A05E-F05FCF8F14A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1177B640-C0F1-484D-A05E-F05FCF8F14A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
