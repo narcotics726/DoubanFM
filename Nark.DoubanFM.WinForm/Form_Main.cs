@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Nark.DoubanFM.Model;
@@ -56,7 +59,34 @@ namespace Nark.DoubanFM.WinForm
 
         private void tab_Config_Enter(object sender, EventArgs e)
         {
+            Thread t = new Thread(new ThreadStart(LoadCaptcha));
+            t.IsBackground = true;
+            t.Start();
+        }
 
+        private void LoadCaptcha()
+        {
+            string captchID;
+            Bitmap imgCaptcha = GetCaptcha(out captchID);
+            imgCaptcha = new Bitmap(imgCaptcha, img_Captcha.Size);
+            img_Captcha.Image = imgCaptcha;
+        }
+
+        private Bitmap GetCaptcha(out string captchID)
+        {
+            WebRequest webReq = WebRequest.Create("http://douban.fm/j/new_captcha");
+            Stream retStream = webReq.GetResponse().GetResponseStream();
+            string retStr;
+            using (StreamReader sr = new StreamReader(retStream))
+            {
+                retStr = sr.ReadToEnd();
+            }
+            captchID = retStr.Replace("\"", "");
+            string captURL = "http://douban.fm/misc/captcha?size=m&id=" + captchID;
+            webReq = WebRequest.Create(captURL);
+            retStream = webReq.GetResponse().GetResponseStream();
+            Bitmap retImg = (Bitmap)Bitmap.FromStream(retStream);
+            return retImg;
         }
     }
 }
