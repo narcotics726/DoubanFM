@@ -36,6 +36,9 @@
     <Reference Include="NAudio">
       <HintPath>..\Refs\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Refs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,11 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPlayer.cs" />
+    <Compile Include="LoginReturnInfo_Douban.cs" />
     <Compile Include="Naudio_Player.cs" />
+    <Compile Include="PlayRecordInfo_Douban.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="SongList_Douban.cs" />
     <Compile Include="Song_Douban.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfo_Douban.cs" />
+    <Compile Include="WebHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

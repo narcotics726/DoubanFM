@@ -17,7 +17,8 @@ namespace Nark.DoubanFM.Model
             playbackState = StreamingPlaybackState.Stopped;
             timer = new Timer(TimerTick, null, Timeout.Infinite, 250);
         }
-        enum StreamingPlaybackState
+
+        private enum StreamingPlaybackState
         {
             Stopped,
             Playing,
@@ -33,7 +34,7 @@ namespace Nark.DoubanFM.Model
         private Timer timer;
         private VolumeWaveProvider16 volumeProvider;
 
-        void TimerTick(object state)
+        private void TimerTick(object state)
         {
             if (playbackState != StreamingPlaybackState.Stopped)
             {
@@ -45,13 +46,13 @@ namespace Nark.DoubanFM.Model
                     this.volumeProvider = new VolumeWaveProvider16(bufferedWaveProvider);
                     this.volumeProvider.Volume = 1;
                     waveOut.Init(volumeProvider);
-
                 }
                 else if (bufferedWaveProvider != null)
                 {
                     var bufferedSeconds = bufferedWaveProvider.BufferedDuration.TotalSeconds;
                     // make it stutter less if we buffer up a decent amount before playing
-                    if (bufferedSeconds < 0.5 && this.playbackState == StreamingPlaybackState.Playing && !this.fullyDownloaded)
+                    if (bufferedSeconds < 0.5 && this.playbackState == StreamingPlaybackState.Playing &&
+                        !this.fullyDownloaded)
                     {
                         this.playbackState = StreamingPlaybackState.Buffering;
                         waveOut.Pause();
@@ -69,7 +70,6 @@ namespace Nark.DoubanFM.Model
                         StopPlayback();
                     }
                 }
-
             }
         }
 
@@ -94,7 +94,7 @@ namespace Nark.DoubanFM.Model
             }
         }
 
-        void waveOut_PlaybackStopped(object sender, StoppedEventArgs e)
+        private void waveOut_PlaybackStopped(object sender, StoppedEventArgs e)
         {
             //
         }
@@ -117,12 +117,12 @@ namespace Nark.DoubanFM.Model
         private void StreamMP3(object state)
         {
             fullyDownloaded = false;
-            string url = (string)state;
-            webRequest = (HttpWebRequest)WebRequest.Create(url);    //why HttpWebRequest instead of WebRequest
+            string url = (string) state;
+            webRequest = (HttpWebRequest) WebRequest.Create(url); //why HttpWebRequest instead of WebRequest
             HttpWebResponse response;
             try
             {
-                response = (HttpWebResponse)webRequest.GetResponse();
+                response = (HttpWebResponse) webRequest.GetResponse();
             }
             catch (WebException e)
             {
@@ -132,7 +132,7 @@ namespace Nark.DoubanFM.Model
                 }
                 return;
             }
-            byte[] buffer = new byte[16384 * 4]; //how to calc this number?
+            byte[] buffer = new byte[16384*4]; //how to calc this number?
 
             IMp3FrameDecompressor decompressor = null;
             try
@@ -144,7 +144,7 @@ namespace Nark.DoubanFM.Model
                     {
                         if (bufferedWaveProvider != null &&
                             bufferedWaveProvider.BufferLength - bufferedWaveProvider.BufferedBytes <
-                            bufferedWaveProvider.WaveFormat.AverageBytesPerSecond / 4)
+                            bufferedWaveProvider.WaveFormat.AverageBytesPerSecond/4)
                         {
                             //buffer getting full
                             Thread.Sleep(500);
@@ -168,8 +168,8 @@ namespace Nark.DoubanFM.Model
                             if (decompressor == null)
                             {
                                 WaveFormat format = new Mp3WaveFormat(frame.SampleRate,
-                                                                   frame.ChannelMode == ChannelMode.Mono ? 1 : 2,
-                                                                   frame.FrameLength, frame.BitRate);
+                                                                      frame.ChannelMode == ChannelMode.Mono ? 1 : 2,
+                                                                      frame.FrameLength, frame.BitRate);
                                 decompressor = new AcmMp3FrameDecompressor(format);
                                 bufferedWaveProvider = new BufferedWaveProvider(decompressor.OutputFormat)
                                     {
@@ -241,6 +241,7 @@ namespace Nark.DoubanFM.Model
             this.sourceStream = sourceStream;
             this.readAheadBuffer = new byte[4096];
         }
+
         public override bool CanRead
         {
             get { return true; }
@@ -268,14 +269,8 @@ namespace Nark.DoubanFM.Model
 
         public override long Position
         {
-            get
-            {
-                return pos;
-            }
-            set
-            {
-                throw new InvalidOperationException();
-            }
+            get { return pos; }
+            set { throw new InvalidOperationException(); }
         }
 
 

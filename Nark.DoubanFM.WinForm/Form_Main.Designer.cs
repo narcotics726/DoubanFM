@@ -47,7 +47,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tab_Config = new System.Windows.Forms.TabPage();
-            this.tab_Channel = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.txt_Name = new System.Windows.Forms.TextBox();
@@ -56,6 +55,7 @@
             this.img_Captcha = new System.Windows.Forms.PictureBox();
             this.btn_Login = new System.Windows.Forms.Button();
             this.btn_GetCaptcha = new System.Windows.Forms.Button();
+            this.tab_Channel = new System.Windows.Forms.TabPage();
             this.tab.SuspendLayout();
             this.tab_Player.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -319,16 +319,6 @@
             this.tab_Config.UseVisualStyleBackColor = true;
             this.tab_Config.Enter += new System.EventHandler(this.tab_Config_Enter);
             // 
-            // tab_Channel
-            // 
-            this.tab_Channel.Location = new System.Drawing.Point(4, 22);
-            this.tab_Channel.Name = "tab_Channel";
-            this.tab_Channel.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Channel.Size = new System.Drawing.Size(536, 250);
-            this.tab_Channel.TabIndex = 2;
-            this.tab_Channel.Text = "Channel";
-            this.tab_Channel.UseVisualStyleBackColor = true;
-            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
@@ -408,6 +398,7 @@
             this.btn_Login.TabIndex = 4;
             this.btn_Login.Text = "Login";
             this.btn_Login.UseVisualStyleBackColor = true;
+            this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
             // btn_GetCaptcha
             // 
@@ -417,6 +408,17 @@
             this.btn_GetCaptcha.TabIndex = 5;
             this.btn_GetCaptcha.Text = "Refresh";
             this.btn_GetCaptcha.UseVisualStyleBackColor = true;
+            this.btn_GetCaptcha.Click += new System.EventHandler(this.btn_GetCaptcha_Click);
+            // 
+            // tab_Channel
+            // 
+            this.tab_Channel.Location = new System.Drawing.Point(4, 22);
+            this.tab_Channel.Name = "tab_Channel";
+            this.tab_Channel.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_Channel.Size = new System.Drawing.Size(536, 250);
+            this.tab_Channel.TabIndex = 2;
+            this.tab_Channel.Text = "Channel";
+            this.tab_Channel.UseVisualStyleBackColor = true;
             // 
             // Form_Main
             // 

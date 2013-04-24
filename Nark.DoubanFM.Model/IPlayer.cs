@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nark.DoubanFM.Model
 {
-    interface IPlayer
+    internal interface IPlayer
     {
         void Play(string url);
         void Play(Stream stream);

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Nark.DoubanFM.Model
 {
-    public class SongList_Douban
+    public class LoginReturnInfo_Douban
     {
+        public UserInfo_Douban user_info;
         public int r;
-        public Song_Douban[] song;
+        public string err_msg;
     }
 }

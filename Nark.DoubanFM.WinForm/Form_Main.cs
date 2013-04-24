@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Nark.DoubanFM.Model;
+using Newtonsoft.Json;
 
 namespace Nark.DoubanFM.WinForm
 {
@@ -59,6 +60,11 @@ namespace Nark.DoubanFM.WinForm
 
         private void tab_Config_Enter(object sender, EventArgs e)
         {
+            ShowCaptchaAsync();
+        }
+
+        private void ShowCaptchaAsync()
+        {
             Thread t = new Thread(new ThreadStart(LoadCaptcha));
             t.IsBackground = true;
             t.Start();
@@ -66,16 +72,20 @@ namespace Nark.DoubanFM.WinForm
 
         private void LoadCaptcha()
         {
+            btn_GetCaptcha.Enabled = false;
+            btn_Login.Enabled = false;
             string captchID;
             Bitmap imgCaptcha = GetCaptcha(out captchID);
             imgCaptcha = new Bitmap(imgCaptcha, img_Captcha.Size);
             img_Captcha.Image = imgCaptcha;
+            img_Captcha.Tag = captchID;
+            btn_GetCaptcha.Enabled = true;
+            btn_Login.Enabled = true;
         }
 
         private Bitmap GetCaptcha(out string captchID)
         {
-            WebRequest webReq = WebRequest.Create("http://douban.fm/j/new_captcha");
-            Stream retStream = webReq.GetResponse().GetResponseStream();
+            Stream retStream = Helper.GetStreamFromURL("http://douban.fm/j/new_captcha");
             string retStr;
             using (StreamReader sr = new StreamReader(retStream))
             {
@@ -83,10 +93,52 @@ namespace Nark.DoubanFM.WinForm
             }
             captchID = retStr.Replace("\"", "");
             string captURL = "http://douban.fm/misc/captcha?size=m&id=" + captchID;
-            webReq = WebRequest.Create(captURL);
-            retStream = webReq.GetResponse().GetResponseStream();
-            Bitmap retImg = (Bitmap)Bitmap.FromStream(retStream);
+            retStream = Helper.GetStreamFromURL(captURL);
+            Bitmap retImg = (Bitmap)Image.FromStream(retStream);
             return retImg;
+        }
+
+        private void btn_GetCaptcha_Click(object sender, EventArgs e)
+        {
+            ShowCaptchaAsync();
+        }
+
+        private void btn_Login_Click(object sender, EventArgs e)
+        {
+            List<TextBox> inputList = new List<TextBox>() { txt_Name, txt_Pwd, txt_Captcha };
+            if (ValidateInputCollection(inputList))
+            {
+                LoginIn(txt_Name.Text, txt_Pwd.Text, txt_Captcha.Text);
+            }
+        }
+
+        private void LoginIn(string strUserName, string strPwd, string strCaptcha)
+        {
+            string captchaID = img_Captcha.Tag.ToString();
+            string loginURL = string.Format("http://douban.fm/j/login?source=radio&alias={0}&form_password={1}&captcha_solution={2}&captcha_id={3}&task=sync_channel_list", strUserName, strPwd, strCaptcha, captchaID);
+            LoginReturnInfo_Douban loginReturnInfo = Helper.GetObjectFromURL<LoginReturnInfo_Douban>(loginURL);
+            if (!string.IsNullOrWhiteSpace(loginReturnInfo.err_msg))
+            {
+                MessageBox.Show(loginReturnInfo.err_msg);
+                ShowCaptchaAsync();
+            }
+            else
+            {
+                this.Text = string.Format("{0}'s Douban FM", loginReturnInfo.user_info.name);
+            }
+        }
+
+        private bool ValidateInputCollection(List<TextBox> inputList)
+        {
+            bool isAllValid = inputList.Aggregate(true, (current, input) => current && ValidateInput(input));
+            return isAllValid;
+        }
+
+        private bool ValidateInput(TextBox input)
+        {
+            bool isValid = (!string.IsNullOrWhiteSpace(input.Text));
+            input.BackColor = !isValid ? Color.Red : SystemColors.Window;
+            return isValid;
         }
     }
 }

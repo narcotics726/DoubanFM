@@ -86,6 +86,5 @@ namespace Nark.DoubanFM.Model
         }
 
         #endregion
-
     }
 }

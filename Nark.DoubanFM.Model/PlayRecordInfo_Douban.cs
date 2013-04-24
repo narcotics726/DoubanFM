@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nark.DoubanFM.Model
 {
-    public class SongList_Douban
+    public class PlayRecordInfo_Douban
     {
-        public int r;
-        public Song_Douban[] song;
+        public int fav_chls_count;
+        public int liked;
+        public int banned;
+        public int played;
     }
 }
